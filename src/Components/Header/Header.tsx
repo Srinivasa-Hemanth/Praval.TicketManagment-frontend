@@ -9,13 +9,21 @@ import praval_logo from '../../Assets/Images/Latest-Logo.png';
 interface IHeaderState{
     isManager: boolean;
 }
-class Header extends React.Component<{},IHeaderState>{
-    constructor(props:{}){
-        super(props);
+
+interface IHeaderProps{
+  SignIn: () => void; 
+  SignOut: () => void; 
+  userName: string;
+}
+
+class Header extends React.Component<IHeaderProps,IHeaderState>{
+    constructor(props:IHeaderProps){
+        super(props)
         this.state = {
             isManager: true,
         };
     }
+
     render(){
         const { isManager } = this.state;
         return(
@@ -51,9 +59,9 @@ class Header extends React.Component<{},IHeaderState>{
               </nav>
               <div className="d-flex text-white align me-4 profile-info">
                   <li className="nav-link">
-                    <Link to="/profile" className="text-decoration-none text-white">
-                      <img src={profile_icon} alt="Profile" /> Welcome, Pradeep Pasupuleti
-                    </Link>
+                    <div onClick={this.props.SignIn} className="text-decoration-none text-white">
+                      <img src={profile_icon} alt="Profile" /> Welcome,{this.props.userName}
+                    </div>
                   </li>
               </div>
           </header>
