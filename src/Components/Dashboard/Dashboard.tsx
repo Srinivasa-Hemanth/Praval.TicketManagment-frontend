@@ -3,6 +3,8 @@ import { Modal } from 'react-bootstrap';
 import AddRequest from '../Forms/AddRequest';
 import { IFormState } from '../../Interfaces/IForm';
 import RequestDevice from '../Forms/RequestDevice';
+import { ITicket } from '../../Interfaces/ITickets';
+import { GetAllTicket } from '../../Services/TicketService';
 
 interface IDashboardProps {
   cardClicked: string;
@@ -13,7 +15,7 @@ interface IUserDashboardState {
   cardClicked: string;
   showAddRequest: boolean;
   showModal: boolean;
-  requestData: IFormState[];
+  requestData: ITicket[];
 }
 
 class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
@@ -35,13 +37,24 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
     this.setState({ showModal: false, showAddRequest: false, cardClicked: '' });
   };
 
-  handleAddRequestSubmit = (formState: IFormState) => {
+  handleAddRequestSubmit = (ITicket: ITicket) => {
     this.setState((prevState) => ({
-      requestData: [...prevState.requestData, formState],
+      requestData: [...prevState.requestData, ITicket],
       showModal: false,
       showAddRequest: false,
     }));
   };
+
+  getTicketData=()=>{
+    var Tickets=GetAllTicket()
+    this.setState({
+      requestData:Tickets
+    })
+  }
+
+  componentDidMount(): void {
+    this.getTicketData();
+  }
 
   renderContent() {
     const { cardClicked, showAddRequest, showModal } = this.state;
@@ -51,7 +64,7 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
         <AddRequest
           show={showModal}
           onHide={this.closeModal}
-          onSubmit={this.handleAddRequestSubmit}
+          getTicketData={this.getTicketData}
         />
       );
     }
@@ -62,7 +75,7 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
           <AddRequest
             show={showModal}
             onHide={this.closeModal}
-            onSubmit={this.handleAddRequestSubmit}
+            getTicketData={this.getTicketData}
           />
         );
       case 'Facilities':
@@ -70,7 +83,6 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
           <RequestDevice
             show={showModal}
             onHide={this.closeModal}
-            onSubmit={this.handleAddRequestSubmit}
           />
         );
       default:
@@ -109,25 +121,25 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
                 <th>Status</th>
                 <th>Modified ON</th>
                 <th>Comments</th>
-                <th>State</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {requestData.map((request, index) => (
                 <tr key={index}>
-                  <td>{request.incidentId}</td>
-                  <td>{Date.now.toString()}</td>
-                  <td>{request.requestType}</td>
-                  <td>{request.asset}</td>
+                  <td>{request.TicketId}</td>
+                  <td>{request.CreatedOn}</td>
+                  <td>{request.RequestType}</td>
+                  <td>{request.Title}</td>
                   <td>{request.details}</td>
-                  <td>{request.description}</td>
-                  <td>{request.priority}</td>
-                  <td>{request.status}</td>
-                  {/* <td>{request.ModifiedOn}</td> 
-                  <td>{request.comments}</td> */}
+                  <td>{request.Description}</td>
+                  <td>{request.Priority}</td>
+                  <td>{request.Status}</td>
+                  <td>{request.ModifiedOn}</td> 
+                  <td>{request.comments}</td>
                   <td>
-                    <button className='btn btn-success' disabled={request.status !== 'Resolved'}>
-                      {request.status === 'Resolved' ? 'Enabled' : 'Resolved'}
+                    <button className='btn btn-success' disabled={request.Status !== 'Resolved'}>
+                      {request.Status === 'Resolved' ? 'Enabled' : 'Resolved'}
                     </button>
                   </td>
                 </tr>
