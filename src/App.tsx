@@ -49,7 +49,6 @@ const App: React.FC = () => {
     <Router>
       <div>
         <div>
-          <button onClick={()=>sendMail('test','LogOut Test',"Test Email")}>sendMail</button>
           <Header SignIn={handleLogin} SignOut={handleLogout} userName={firstName}/>
         </div>
         <div>
