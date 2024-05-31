@@ -4,6 +4,8 @@ import it_support from '../../Assets/Images/gear-fill.svg';
 import facilities_logo from '../../Assets/Images/laptop.svg';
 import resource_logo from '../../Assets/Images/people-fill.svg';
 import { Link } from 'react-router-dom';
+import './Home.css';
+
 interface IHomeProps { }
 
 class Home extends React.Component<IHomeProps> {
@@ -25,7 +27,7 @@ class Home extends React.Component<IHomeProps> {
 
   render() {
     return (
-      <div className='bg-dark'>
+      <div className='bg-dark home-conent d-flex flex-column justify-content-end'>
         <div className='space'></div>
         <div className='card-grid'>
           {this.renderCard(it_support, "IT Support", "Request support from our IT team","ITsupport")}
