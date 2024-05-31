@@ -11,7 +11,7 @@
   body {
     display: flex;
     font-family: "Poppins", sans-serif;
-    /* background-image: url('../src/Assets/Images/bg_img.jpg'); */
+    /* background-image: url('../src/Assets/Images/standard-quality-control-concept-m_23-2150041859.jpg'); */
     background-attachment: fixed;
     background-size: cover;
     background-repeat: no-repeat;
@@ -202,5 +202,5 @@
         left: 100%;
       }
     }
-    
-  
+
+
