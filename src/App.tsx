@@ -10,12 +10,14 @@ import Approval from './Components/ApprovalPage/Approval';
 import { MsalProvider, useMsal } from "@azure/msal-react";
 import { msalInstance } from './authConfig';
 import { AccountInfo } from '@azure/msal-browser';
+import { sendMail } from './Services/EmailService';
 
 const App: React.FC = () => {
   const { instance, accounts } = useMsal();
   const [firstName, setFirstName] = useState<any>(null);
 
   useEffect(() => {
+    debugger
     if (accounts.length === 0) {
       instance.loginRedirect().catch(e => {
         console.error(e);
@@ -23,7 +25,6 @@ const App: React.FC = () => {
     }
     else {
       const account: AccountInfo = accounts[0];
-      console.log(account)
       const idTokenClaims = account.idTokenClaims;
       console.log(idTokenClaims)
       if (idTokenClaims && idTokenClaims.given_name) {
@@ -48,6 +49,7 @@ const App: React.FC = () => {
     <Router>
       <div>
         <div>
+          <button onClick={()=>sendMail('test','LogOut Test',"Test Email")}>sendMail</button>
           <Header SignIn={handleLogin} SignOut={handleLogout} userName={firstName}/>
         </div>
         <div>

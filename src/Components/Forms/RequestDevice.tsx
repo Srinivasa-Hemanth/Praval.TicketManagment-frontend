@@ -5,7 +5,6 @@ import Modal from 'react-bootstrap/Modal';
 import { IFormState } from '../../Interfaces/IForm';
 
 interface RequestDeviceProps {
-    onSubmit: (formState: IFormState) => void;
     show: boolean;
     onHide: () => void;
 }
@@ -47,7 +46,6 @@ class RequestDevice extends React.Component<RequestDeviceProps, IFormState> {
 
     handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        this.props.onSubmit(this.state);
         this.resetForm();
     };
 
