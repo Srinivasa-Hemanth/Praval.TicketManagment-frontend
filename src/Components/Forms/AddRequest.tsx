@@ -2,7 +2,7 @@ import * as React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Modal from 'react-bootstrap/Modal';
-
+import './Form.css'
 interface IFormState {
     requestType: string;
     asset: string;
@@ -85,7 +85,9 @@ class AddRequest extends React.Component<AddRequestProps, IFormState> {
                 show={show} onHide={onHide}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
-                centered  
+                centered
+                backdrop="static"
+                contentClassName="modal-width"
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Add Request</Modal.Title>

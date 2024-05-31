@@ -23,9 +23,11 @@ const App: React.FC = () => {
     }
     else {
       const account: AccountInfo = accounts[0];
+      console.log(account)
       const idTokenClaims = account.idTokenClaims;
+      console.log(idTokenClaims)
       if (idTokenClaims && idTokenClaims.given_name) {
-        setFirstName(idTokenClaims.given_name);
+        setFirstName(idTokenClaims.preferred_username);
       }
     }
   }, [accounts, instance]);
