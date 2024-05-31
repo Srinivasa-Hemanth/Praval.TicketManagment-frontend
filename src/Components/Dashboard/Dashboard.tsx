@@ -96,88 +96,46 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
           </button>
         </div>
         <div className='table'>
-          <table className='table table-striped'>
+          <table className='table table-striped table-responsive'>
             <thead>
               <tr>
                 <th>Incident ID</th>
-                <th>Employee ID</th>
-                <th>Name</th>
+                <th>Created ON</th>
                 <th>Request Type</th>
                 <th>Asset</th>
                 <th>Details</th>
-                <th>Priority</th>
-                <th>Subject</th>
                 <th>Description</th>
+                <th>Priority</th>
                 <th>Status</th>
+                <th>Modified ON</th>
+                <th>Comments</th>
+                <th>State</th>
               </tr>
             </thead>
             <tbody>
               {requestData.map((request, index) => (
                 <tr key={index}>
                   <td>{request.incidentId}</td>
-                  <td>{request.employeeId}</td>
-                  <td>{request.name}</td>
+                  <td>{Date.now.toString()}</td>
                   <td>{request.requestType}</td>
                   <td>{request.asset}</td>
                   <td>{request.details}</td>
-                  <td>{request.priority}</td>
-                  <td>{request.subject}</td>
                   <td>{request.description}</td>
+                  <td>{request.priority}</td>
                   <td>{request.status}</td>
+                  <td>{request.ModifiedOn}</td> 
+                  <td>{request.comments}</td>
+                  <td>
+                    <button className='btn btn-success' disabled={request.status !== 'Resolved'}>
+                      {request.status === 'Resolved' ? 'Enabled' : 'Resolved'}
+                    </button>
+                  </td>
                 </tr>
               ))}
-                            <tr>
-                                <td>INC1234567890</td>
-                                <td>P-1000</td>
-                                <td>Pradeep</td>
-                                <td>Hardware</td>
-                                <td>Laptop</td>
-                                <td>Thinkpad T480</td>
-                                <td>High</td>
-                                <td>Need a new laptop</td>
-                                <td>Need a new laptop</td>
-                                <td>Pending</td>
-                            </tr>
-                            <tr>
-                                <td>INC1234567890</td>
-                                <td>P-1000</td>
-                                <td>Pradeep</td>
-                                <td>Hardware</td>
-                                <td>Laptop</td>
-                                <td>Thinkpad T480</td>
-                                <td>High</td>
-                                <td>Need a new laptop</td>
-                                <td>Need a new laptop</td>
-                                <td>Pending</td>
-                            </tr>
-                            <tr>
-                                <td>INC1234567890</td>
-                                <td>P-1000</td>
-                                <td>Pradeep</td>
-                                <td>Hardware</td>
-                                <td>Laptop</td>
-                                <td>Thinkpad T480</td>
-                                <td>High</td>
-                                <td>Need a new laptop</td>
-                                <td>Need a new laptop</td>
-                                <td>Pending</td>
-                            </tr>
-                            <tr>
-                                <td>INC1234567890</td>
-                                <td>P-1000</td>
-                                <td>Pradeep</td>
-                                <td>Hardware</td>
-                                <td>Laptop</td>
-                                <td>Thinkpad T480</td>
-                                <td>High</td>
-                                <td>Need a new laptop</td>
-                                <td>Need a new laptop</td>
-                                <td>Pending</td>
-                            </tr>
             </tbody>
           </table>
         </div>
-      {this.state.showModal && this.renderContent()}
+        {this.state.showModal && this.renderContent()}
       </div>
     );
   }
