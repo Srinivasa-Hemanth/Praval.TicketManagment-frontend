@@ -105,7 +105,7 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
     })
   }
 
-  handleTabChange=(tab:string)=>{
+  handleTabChange=  (tab:string)=>{
     this.setState({
         activeTab:tab
     },()=>{
@@ -180,6 +180,9 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
                   </div>
                   <div className={`tab ${activeTab==TicketStatus.Closed?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.Closed)}>
                       Closed
+                  </div>
+                  <div className={`tab ${activeTab==TicketStatus.Rejected?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.Rejected)}>
+                      Rejected
                   </div>
               </div>
               <div className='tickets-card border-0 p-4 d-flex flex-column gap-4'>

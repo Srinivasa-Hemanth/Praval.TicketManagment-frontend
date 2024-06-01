@@ -70,7 +70,7 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
         }
     };
 
-    handleClosee = () => {
+    handleClose = () => {
         if (this.props.ticketData) {
             const updatedTicket = {
                 ...this.props.ticketData,
@@ -81,7 +81,7 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
         }
     };
 
-        handleReject = () => {
+    handleReject = () => {
         if (this.props.ticketData) {
             const updatedTicket = {
                 ...this.props.ticketData,
@@ -191,7 +191,7 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
 
                     {(this.props.RequestedFrom.toLocaleLowerCase() === "dashboard" && (this.props.ticketData?.Status!="Closed")) && (
                     <Modal.Footer>
-                        <Button className='btn' variant="success" onClick={this.handleClosee}>
+                        <Button className='btn' variant="success" onClick={this.handleClose}>
                             Close Ticket
                         </Button>
                     </Modal.Footer>
