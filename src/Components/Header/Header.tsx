@@ -36,6 +36,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
 
   render() {
     const { isManager, dropdownOpen } = this.state;
+    // const {location : string}=window.location.pathname;
     return (
       <header className='d-flex align-items-center justify-content-between p-3'>
         <div>
@@ -53,11 +54,11 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 <img src={dashboard_icon} alt="Dashboard" /> Dashboard
               </Link>
             </li>
-            <li className="nav-link">
+            {/* <li className="nav-link">
               <Link to="/my-requests" className="text-decoration-none text-white">
                 <img src={requests_icon} alt="Requests" /> My Requests
               </Link>
-            </li>
+            </li> */}
             {isManager && (
               <li className="nav-link">
                 <Link to="/approvals" className="text-decoration-none text-white">

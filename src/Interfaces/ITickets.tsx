@@ -17,5 +17,4 @@ export interface ITicket {
     IsTicketClosed?: boolean;
     Subject : string
     comments?:string;
-    details?:string;
 }
