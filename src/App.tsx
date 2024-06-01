@@ -77,7 +77,7 @@ const App: React.FC = () => {
             <Route path="/" exact render={(props) => <Home />} />
             <Route path="/dashboard" exact render={(props) => <Dashboard cardClicked={''} openForm={false} account={accounts[0]}/>} />
             <Route path="/my-requests" exact render={(props) => <MyRequests />} />
-            <Route path="/approvals" exact render={(props) => <Approval />} />
+            <Route path="/approvals" exact render={(props) => <Approval activeTab={''} tickets={[]} filteredTicket={[]} inProgressCount={0} resolvedCount={0} closedCount={0} />} />
             <Route path="/profile" exact render={(props) => <div>Profile</div>} />
             <Route path="/ITsupport" exact render={(props) => <Dashboard cardClicked={'IT Support'} openForm={true} account={accounts[0]}/>} />
             <Route path="/Facilities" exact render={(props) => <Dashboard cardClicked={'Facilities'} openForm={true} account={accounts[0]}/>} />

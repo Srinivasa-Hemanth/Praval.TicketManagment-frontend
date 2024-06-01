@@ -5,7 +5,9 @@ import { IFormState } from '../../Interfaces/IForm';
 import RequestDevice from '../Forms/RequestDevice';
 import { ITicket } from '../../Interfaces/ITickets';
 import { GetAllTicket } from '../../Services/TicketService';
-import pic from '../../Assets/SVG/undraw_landscape_photographer_blv1.svg'
+import pic from '../../Assets/SVG/undraw_landscape_photographer_blv1.svg';
+import { TicketStatus } from '../../Common/Enum';
+import TicketCard from '../Common/TicketCard';
 
 interface IDashboardProps {
   cardClicked: string;
@@ -18,6 +20,12 @@ interface IUserDashboardState {
   showAddRequest: boolean;
   showModal: boolean;
   requestData: ITicket[];
+  activeTab:string;
+  tickets:ITicket[];
+  filteredTicket:ITicket[];
+  inProgressCount:number;
+  resolvedCount:number;
+  closedCount:number
 }
 
 class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
@@ -27,7 +35,13 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
       cardClicked: this.props.cardClicked,
       showAddRequest: false,
       showModal: this.props.openForm,
-      requestData: []
+      requestData: [],
+      activeTab:TicketStatus.All_Tickets,
+      tickets:[],
+      filteredTicket:[],
+      inProgressCount:0,
+      resolvedCount:0,
+      closedCount:0
     };
   }
 
@@ -36,7 +50,9 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
   };
 
   closeModal = () => {
-    this.setState({ showModal: false, showAddRequest: false, cardClicked: '' });
+    this.setState({ showModal: false, showAddRequest: false, cardClicked: '' },()=>{
+      this.getTickets();
+    });
   };
 
   handleAddRequestSubmit = (ITicket: ITicket) => {
@@ -55,12 +71,52 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
   }
 
   componentDidMount(): void {
-    this.getTicketData();
+    this.getTickets()
+  }
+
+  getTickets=()=>
+  {
+    var tickets=GetAllTicket()
+    var  filterTickets;
+    var  inProgressCount;
+    var  resolvedCount
+    var  closedCount 
+    console.log(tickets)
+    this.setState({
+        tickets:tickets
+    })
+    if(this.state.activeTab!=TicketStatus.All_Tickets)
+    {   if(this.state.activeTab==TicketStatus.In_Progress)
+        {
+            // filterTickets=tickets.filter((ticket)=>((ticket.Status==this.state.activeTab)|| (ticket.Status==TicketStatus.Open) && ticket.EmpName==""))
+        }
+        else{
+            // filterTickets=tickets.filter((ticket)=>(ticket.Status==this.state.activeTab) && (ticket.EmpName==""))
+        }
+    }
+    inProgressCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.In_Progress || ticket.Status==TicketStatus.Open).length;
+    resolvedCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.Resolved).length;
+    console.log(tickets.filter((ticket)=>ticket.Status==TicketStatus.Resolved))
+    closedCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.Closed).length
+    this.setState({
+        filteredTicket:filterTickets? filterTickets :tickets,
+        inProgressCount,
+        resolvedCount,
+        closedCount
+    })
+  }
+
+  handleTabChange=(tab:string)=>{
+    this.setState({
+        activeTab:tab
+    },()=>{
+        this.getTickets()
+    })
   }
 
   renderContent() {
     const { cardClicked, showAddRequest, showModal } = this.state;
-
+    
     if (showAddRequest) {
       return (
         <AddRequest
@@ -96,7 +152,8 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
 
   render() {
     const { requestData } = this.state;
-    console.log(this.props.account)
+    const {activeTab,filteredTicket,inProgressCount,closedCount,resolvedCount}=this.state
+
     return (
       
       <div className='mx-3'>
@@ -112,54 +169,30 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
             </svg>
           </button>
         </div>
-        <div className='table'>
-          <table className='table table-striped table-responsive'>
-            <thead>
-              <tr>
-                <th>Incident ID</th>
-                <th>Created ON</th>
-                <th>Request Type</th>
-                <th>Asset</th>
-                <th>Details</th>
-                <th>Description</th>
-                <th>Priority</th>
-                <th>Status</th>
-                <th>Modified ON</th>
-                <th>Comments</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {requestData.map((request, index) => (
-                <tr key={index}>
-                  <td>{request.TicketId}</td>
-                  <td>{request.CreatedOn}</td>
-                  <td>{request.RequestType}</td>
-                  <td>{request.Title}</td>
-                  <td>{request.details}</td>
-                  <td>{request.Description}</td>
-                  <td>{request.Priority}</td>
-                  <td>{request.Status}</td>
-                  <td>{request.ModifiedOn}</td> 
-                  <td>{request.comments}</td>
-                  <td>
-                    <button className='btn btn-success' disabled={request.Status !== 'Resolved'}>
-                      {request.Status === 'Resolved' ? 'Enabled' : 'Resolved'}
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        {requestData.length === 0 && (
-          <div className='d-flex mt-5'>
-            <div className='w-50'></div>
-            <div className='d-flex justify-content-end'>
-              <img src={pic} className='w-50' alt="no-data" />
-            </div>
+        <div className='p-4 admin-page border'>
+          <div className='ps-4 fs-3'>Tickets Overview</div>
+          <div className='tickets-card-container card border-0 mx-3'>
+              <div className="border-bottom d-flex gap-lg-5 mx-4 py-4 tab-navigation px-1">
+                  <div className={`tab ${activeTab==TicketStatus.All_Tickets?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.All_Tickets)}>
+                      All Tickets
+                  </div>
+                  <div className={`tab ${activeTab==TicketStatus.In_Progress?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.In_Progress)}>
+                      In Progress
+                  </div>
+                  <div className={`tab ${activeTab==TicketStatus.Resolved?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.Resolved)}>
+                      Resolved
+                  </div>
+                  <div className={`tab ${activeTab==TicketStatus.Closed?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.Closed)}>
+                      Closed
+                  </div>
+              </div>
+              <div className='tickets-card border-0 p-4 d-flex flex-column gap-4'>
+                {filteredTicket.map((ticket,index)=>(
+                  <TicketCard RequestedFrom='Dashboard' ticketData={ticket}/>
+                ))}
+              </div>
           </div>
-        )}
+        </div>
         {this.state.showModal && this.renderContent()}
       </div>
     );

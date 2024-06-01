@@ -1,72 +1,108 @@
-import React from 'react';
+import React, { Component } from 'react';
+import './MyRequest.css'
+import TicketCard from '../Common/TicketCard';
+import { GetAllTicket } from '../../Services/TicketService';
 import { ITicket } from '../../Interfaces/ITickets';
+import { TicketStatus } from '../../Common/Enum';
 
-interface IMyRequestsState {
-    requestData: ITicket[];
+interface IMyRequestsProps{
+
 }
 
-class MyRequests extends React.Component<{}, IMyRequestsState> {
-    constructor(props: {}) {
-        super(props);
-        this.state = {
-            requestData: []
-        };
+interface MyRequestsState{
+    activeTab:string;
+    tickets:ITicket[];
+    filteredTicket:ITicket[];
+    inProgressCount:number;
+    resolvedCount:number;
+    closedCount:number
+}
+
+export default class MyRequests extends Component<IMyRequestsProps,MyRequestsState> {
+  constructor(props:IMyRequestsProps) {
+    super(props)
+  
+    this.state = {
+       activeTab:TicketStatus.All_Tickets,
+       tickets:[],
+       filteredTicket:[],
+       inProgressCount:0,
+        resolvedCount:0,
+        closedCount:0
     }
+  }
 
-    componentDidMount() {
-        this.loadRequestData();
+  componentDidMount(): void {
+    this.getTickets()
+  }
+
+  getTickets=()=>
+  {
+    var tickets=GetAllTicket()
+    var  filterTickets;
+    var  inProgressCount;
+    var  resolvedCount
+    var  closedCount 
+    console.log(tickets)
+    this.setState({
+        tickets:tickets
+    })
+    if(this.state.activeTab!=TicketStatus.All_Tickets)
+    {   if(this.state.activeTab==TicketStatus.In_Progress)
+        {
+            filterTickets=tickets.filter((ticket)=>(ticket.Status==this.state.activeTab)|| (ticket.Status==TicketStatus.Open))
+        }
+        else{
+            filterTickets=tickets.filter((ticket)=>ticket.Status==this.state.activeTab)
+        }
     }
+    inProgressCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.In_Progress || ticket.Status==TicketStatus.Open).length;
+    resolvedCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.Resolved).length;
+    console.log(tickets.filter((ticket)=>ticket.Status==TicketStatus.Resolved))
+    closedCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.Closed).length
+    this.setState({
+        filteredTicket:filterTickets? filterTickets :tickets,
+        inProgressCount,
+        resolvedCount,
+        closedCount
+    })
+  }
 
-    loadRequestData() {
-        const requestData = JSON.parse(localStorage.getItem('Tickets') || '[]') as ITicket[];
-        this.setState({ requestData });
-    }
+  handleTabChange=(tab:string)=>{
+    this.setState({
+        activeTab:tab
+    },()=>{
+        this.getTickets()
+    })
+  }
 
-    render() {
-        const { requestData } = this.state;
-
-        return (
-            <div>
-                <div>   
-
+  render() {
+    const {activeTab,filteredTicket,inProgressCount,closedCount,resolvedCount}=this.state
+    return (
+      <div className='p-4 admin-page border'>
+        <div className='ps-4 fs-3'>Tickets Overview</div>
+        <div className='tickets-card-container card border-0 mx-3'>
+            <div className="border-bottom d-flex gap-lg-5 mx-4 py-4 tab-navigation px-1">
+                <div className={`tab ${activeTab==TicketStatus.All_Tickets?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.All_Tickets)}>
+                    All Tickets
                 </div>
-                <div className='table mx-3'>
-                    <table className='table table-striped mt-4'>
-                        <thead>
-                            <tr>
-                                <th>Incident ID</th>
-                                <th>Employee ID</th>
-                                <th>Name</th>
-                                <th>Request Type</th>
-                                <th>Asset</th>
-                                <th>Details</th>
-                                <th>Priority</th>
-                                <th>Subject</th>
-                                <th>Description</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {requestData.map((request, index) => (
-                                <tr key={index}>
-                                    <td>{request.TicketId}</td>
-                                    <td>{request.CreatedBy}</td>
-                                    <td>{request.Title}</td>
-                                    <td>{request.RequestType}</td>
-                                    <td>{request.Asset}</td>
-                                    <td>{request.details}</td>
-                                    <td>{request.Priority}</td>
-                                    <td>{request.Subject}</td>
-                                    <td>{request.Description}</td>
-                                    <td>{request.Status}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                <div className={`tab ${activeTab==TicketStatus.In_Progress?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.In_Progress)}>
+                    In Progress
+                </div>
+                <div className={`tab ${activeTab==TicketStatus.Resolved?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.Resolved)}>
+                    Resolved
+                </div>
+                <div className={`tab ${activeTab==TicketStatus.Closed?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.Closed)}>
+                    Closed
                 </div>
             </div>
-        );
-    }
+            <div className='tickets-card border-0 p-4 d-flex flex-column gap-4'>
+                {filteredTicket.map((ticket,index)=>(
+                    <TicketCard RequestedFrom='MyRequests' ticketData={ticket}/>
+                ))}
+            </div>
+        </div>
+      </div>
+    )
+  }
 }
-
-export default MyRequests;

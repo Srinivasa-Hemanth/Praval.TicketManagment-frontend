@@ -12,3 +12,10 @@ export function GetAllTicket(){
     var users:ITicket[]=JSON.parse(localStorage.getItem('Tickets') as string);
     return users;
 }
+
+export function UpdateTicket(updatedTicket:ITicket){
+    var tickets=GetAllTicket()
+    var filteredTickets=tickets.filter((ticket)=>ticket.TicketId!=updatedTicket.TicketId)
+    filteredTickets.push(updatedTicket);
+    localStorage.setItem('Tickets',JSON.stringify(filteredTickets));
+}
