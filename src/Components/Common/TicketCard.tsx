@@ -74,7 +74,7 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
         this.props.reloadData();
     };
 
-    handleClosee = () => {
+    handleClose = () => {
         if (this.props.ticketData) {
             const updatedTicket = {
                 ...this.props.ticketData,
@@ -105,12 +105,17 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
         const { isModalOpen, comments } = this.state;
         return (
             <div className='p-4 border'>
-                <div className='title d-flex gap-2'>
-                    <div className={`ticket-status rounded rounded-5 ${this.getTicketClassName(ticketData?.Priority)}`}>
+                <div className='d-flex justify-content-between'>
+                    <div className='title d-flex gap-3 '>
+                        <div className={`ticket-status rounded rounded-5 ${this.getTicketClassName(ticketData?.Priority)}`}>
+                        </div>
+                        <div className='ticket-id'>
+                            {ticketData?.TicketId}
+                        </div>
                     </div>
-                    <div className='ticket-id'>
-                        {ticketData?.TicketId}
-                    </div>
+                    <div className='d-flex justify-content-end'>
+                        Ticket {ticketData?.Status}
+                    </div>  
                 </div>
                 <div className='align-items-center d-flex gap-3 subject-container d-flex'>
                     <div className='subject'>
@@ -123,9 +128,7 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
                 <div className='description'>
                     {ticketData?.Description}
                 </div>
-                <div className='d-flex justify-content-end'>
-                    {ticketData?.Status}
-                </div>
+               
                 <hr className=''></hr>
                 <div className='d-flex justify-content-end gap-3'>
                     <div  className='d-flex justify-content-end  text-primary discussions'>Discussions</div>
@@ -183,7 +186,7 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
                         </div>
                     </Modal.Body>
 
-                    {this.props.RequestedFrom.toLocaleLowerCase() === "approvals" && (
+                    {this.props.RequestedFrom.toLocaleLowerCase() === "approvals" &&  (this.props.ticketData?.Status==="Active") && (
                     <Modal.Footer>
                         <Button className='btn' variant="danger" onClick={this.handleReject}>
                         Reject
@@ -196,7 +199,7 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
 
                     {(this.props.RequestedFrom.toLocaleLowerCase() === "dashboard" && (this.props.ticketData?.Status!="Closed")) && (
                     <Modal.Footer>
-                        <Button className='btn' variant="success" onClick={this.handleClosee}>
+                        <Button className='btn' variant="success" onClick={this.handleClose}>
                             Close Ticket
                         </Button>
                     </Modal.Footer>

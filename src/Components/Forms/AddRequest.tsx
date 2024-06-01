@@ -173,9 +173,9 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
                                     required
                                 >
                                     <option value="" disabled>Select Manager</option>
-                                    <option value="Manager 1">Manager 1</option>
-                                    <option value="Manager 2">Manager 2</option>
-                                    <option value="Manager 3">Manager 3</option>
+                                    <option value="srinivasa.p@pravaltech.com">Hemanth P</option>
+                                    <option value="srinivasa.p@pravaltech.com">Chandhana</option>
+                                    <option value="srinivasa.p@pravaltech.com">Pradeep</option>
                                 </select>
                             </div>
 
