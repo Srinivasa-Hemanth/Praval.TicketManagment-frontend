@@ -12,7 +12,10 @@ interface ITAdminProps{
 interface ITAdminState{
     activeTab:string;
     tickets:ITicket[];
-    filteredTicket:ITicket[]
+    filteredTicket:ITicket[];
+    inProgressCount:number;
+    resolvedCount:number;
+    closedCount:number
 }
 
 export default class ITAdmin extends Component<ITAdminProps,ITAdminState> {
@@ -22,7 +25,10 @@ export default class ITAdmin extends Component<ITAdminProps,ITAdminState> {
     this.state = {
        activeTab:TicketStatus.All_Tickets,
        tickets:[],
-       filteredTicket:[]
+       filteredTicket:[],
+       inProgressCount:0,
+        resolvedCount:0,
+        closedCount:0
     }
   }
 
@@ -33,22 +39,33 @@ export default class ITAdmin extends Component<ITAdminProps,ITAdminState> {
   getTickets=()=>
   {
     var tickets=GetAllTicket()
+    var  filterTickets;
+    var  inProgressCount;
+    var  resolvedCount
+    var  closedCount 
     console.log(tickets)
     this.setState({
         tickets:tickets
     })
     if(this.state.activeTab!=TicketStatus.All_Tickets)
-    {
-        var  filterTickets=tickets.filter((ticket)=>ticket.Status==this.state.activeTab)
-        this.setState({
-            filteredTicket:filterTickets
-        })
+    {   if(this.state.activeTab==TicketStatus.In_Progress)
+        {
+            filterTickets=tickets.filter((ticket)=>(ticket.Status==this.state.activeTab)|| (ticket.Status==TicketStatus.Open))
+        }
+        else{
+            filterTickets=tickets.filter((ticket)=>ticket.Status==this.state.activeTab)
+        }
     }
-    else{
-        this.setState({
-            filteredTicket:tickets
-        })
-    }
+    inProgressCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.In_Progress || ticket.Status==TicketStatus.Open).length;
+    resolvedCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.Resolved).length;
+    console.log(tickets.filter((ticket)=>ticket.Status==TicketStatus.Resolved))
+    closedCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.Closed).length
+    this.setState({
+        filteredTicket:filterTickets? filterTickets :tickets,
+        inProgressCount,
+        resolvedCount,
+        closedCount
+    })
   }
 
   handleTabChange=(tab:string)=>{
@@ -60,7 +77,7 @@ export default class ITAdmin extends Component<ITAdminProps,ITAdminState> {
   }
 
   render() {
-    const {activeTab,filteredTicket}=this.state
+    const {activeTab,filteredTicket,inProgressCount,closedCount,resolvedCount}=this.state
     return (
       <div className='p-4 admin-page border'>
         <div className='ps-4 fs-3'>Tickets Overview</div>
@@ -70,31 +87,31 @@ export default class ITAdmin extends Component<ITAdminProps,ITAdminState> {
                     Total Tickets
                 </div>
                 <div>
-                    03
+                    {this.state.tickets.length}
                 </div>
             </div>
             <div className='border card d-flex gap-3 p-3 rounded-3 card p-3 d-flex gap-3 new-tickets'>
                 <div>
-                    New Tickets
+                   In Progress
                 </div>
                 <div>
-                    03
+                    {inProgressCount}
                 </div>
             </div>
             <div className='border card d-flex gap-3 p-3 rounded-3 card p-3 d-flex gap-3 on-Going-tickets'>
                 <div>
-                    On-Going Tickets
+                    Resolved
                 </div>
                 <div>
-                    03
+                    {resolvedCount}
                 </div>
             </div>
             <div className='border card d-flex gap-3 p-3 rounded-3 card p-3 d-flex gap-3 Resolved-tickets'>
                 <div>
-                    Resolved Tickets
+                    Closed
                 </div>
                 <div>
-                    03
+                {closedCount}
                 </div>
             </div>
         </div>
