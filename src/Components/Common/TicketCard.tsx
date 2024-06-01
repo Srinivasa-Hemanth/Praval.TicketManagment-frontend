@@ -70,6 +70,17 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
         }
     };
 
+    handleResolve = () => {
+        if (this.props.ticketData) {
+            const updatedTicket = {
+                ...this.props.ticketData,
+                Status: 'Resolved'
+            };
+            UpdateTicket(updatedTicket as ITicket);
+            this.setState({ isModalOpen: false });
+        }
+    };
+
     handleClose = () => {
         if (this.props.ticketData) {
             const updatedTicket = {
@@ -178,7 +189,7 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
                         </div>
                     </Modal.Body>
 
-                    {this.props.RequestedFrom.toLocaleLowerCase() === "approvals" &&  (this.props.ticketData?.Status==="Active") && (
+                    {(this.props.RequestedFrom.toLocaleLowerCase() === "approvals") &&  (this.props.ticketData?.Status==="Active") && (
                     <Modal.Footer>
                         <Button className='btn' variant="danger" onClick={this.handleReject}>
                         Reject
@@ -196,6 +207,17 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
                         </Button>
                     </Modal.Footer>
                     )}
+
+                    {((this.props.RequestedFrom === "ITAdmin") &&  (this.props.ticketData?.Status==="In Progress")) && (
+                    <Modal.Footer>
+                        <Button className='btn' variant="danger" onClick={this.handleReject}>
+                            Reject
+                        </Button>
+                        <Button className='btn' variant="success" onClick={this.handleResolve}>
+                            Resolve
+                        </Button>
+                    </Modal.Footer>
+                    )}  
 
                 </Modal>
             </div>

@@ -132,7 +132,7 @@ export default class ITAdmin extends Component<ITAdminProps,ITAdminState> {
             </div>
             <div className='tickets-card border-0 p-4 d-flex flex-column gap-4'>
                 {filteredTicket.map((ticket,index)=>(
-                    <TicketCard RequestedFrom='Approvals' ticketData={ticket}/>
+                    <TicketCard RequestedFrom='ITAdmin' ticketData={ticket}/>
                 ))}
             </div>
         </div>
