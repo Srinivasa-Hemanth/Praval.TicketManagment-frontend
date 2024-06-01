@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './TicketCard.css';
 import { ITicket } from '../../Interfaces/ITickets';
+import { Priority } from '../../Common/Enum';
 
 interface ITicketCardProps{
     ticketData?:ITicket
@@ -19,24 +20,25 @@ export default class TicketCard extends Component<ITicketCardProps,ITicketCardSt
     }
   }
 
-  getTicketClassName=(priority:any)=>{
-    switch(priority)
-    {
-        case 'High':
-            return 'high'
-        case 'Medium':
-            return 'medium'
-        case 'Low':
-            return 'low'
+  getTicketClassName = (priority:any) => {
+    switch (priority) {
+        case Priority.High:
+            return 'priority-high';
+        case Priority.Medium:
+            return 'priority-medium';
+        case Priority.Low:
+            return 'priority-low';
+        default:
+            return '';
     }
-  }
+};
   
   render() {
     const {ticketData}=this.props;
     return (
       <div className='p-4 border'>
         <div className='title d-flex gap-2'>
-            <div className={`ticket-status rounder rounded-5 ${this.getTicketClassName('High')}`}>
+            <div className={`ticket-status rounder rounded-5 ${this.getTicketClassName(ticketData?.Priority)}`}>
             </div>
             <div className='ticket-id'>
                 {ticketData?.TicketId}
@@ -46,7 +48,7 @@ export default class TicketCard extends Component<ITicketCardProps,ITicketCardSt
             <div className='subject'>
                 How to fix server unreachable
             </div>
-            <div className='p-1 priority px-3 rounded-5 text-white bg-danger'>
+            <div className={`p-1 priority px-3 rounded-5 text-white ${this.getTicketClassName(ticketData?.Priority)}`}>
                 {ticketData?.Priority}
             </div>
         </div>

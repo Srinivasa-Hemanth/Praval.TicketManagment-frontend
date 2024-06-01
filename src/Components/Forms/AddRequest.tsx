@@ -18,6 +18,8 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
             RequestType: '',
             Asset: '',
             Priority: '',
+            EmpId:'',
+            EmpName:'',
             Subject: '',
             Description: '',
             Status: 'Open',
@@ -57,6 +59,8 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
             IsTicketClosed: false,
             Asset: this.state.Asset,
             Subject: this.state.Subject,
+            EmpId:'',
+            EmpName:'',
         };
         CreateNewTicket(newTicket);
         this.resetForm();
