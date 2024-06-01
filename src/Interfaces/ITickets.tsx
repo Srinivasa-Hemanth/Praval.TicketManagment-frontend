@@ -2,6 +2,8 @@ export interface ITicket {
     TicketId?: string;
     Title?: string;
     Asset : string;
+    EmpId:string;
+    EmpName:string
     RequestType: string;
     Description: string;
     Status: string;

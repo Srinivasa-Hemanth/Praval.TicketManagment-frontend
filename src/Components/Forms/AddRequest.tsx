@@ -1,15 +1,14 @@
 import * as React from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 import Modal from 'react-bootstrap/Modal';
 import './Form.css';
-import { CreateNewTicket } from '../../Services/TicketService'; 
-import { ITicket } from '../../Interfaces/ITickets'; 
-import {generateUniqueId} from '../../Services/Helper';
- 
+import { CreateNewTicket } from '../../Services/TicketService';
+import { ITicket } from '../../Interfaces/ITickets';
+import { generateUniqueId } from '../../Services/Helper';
+
 interface AddRequestProps {
     show: boolean;
     onHide: () => void;
+    getTicketData: () => void; 
 }
 
 class AddRequest extends React.Component<AddRequestProps, ITicket> {
@@ -19,42 +18,34 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
             RequestType: '',
             Asset: '',
             Priority: '',
+            EmpId:'',
+            EmpName:'',
             Subject: '',
             Description: '',
             Status: 'Open',
-            CreatedBy: 'User', 
+            CreatedBy: 'User',
             CreatedOn: '',
-            ModifiedBy: 'User', 
+            ModifiedBy: 'User',
             ModifiedOn: '',
             ReporingManger: '',
         };
     }
 
-    handleRequestTypeSelect = (eventKey: any) => {
-        this.setState({ RequestType: eventKey });
-    };
-
-    handleAssetSelect = (eventKey: any) => {
-        this.setState({ Asset: eventKey });
-    };
-
-    handleManagerSelect = (eventKey: any) => {
-        this.setState({ ReporingManger : eventKey });
-    };
-
-    handleStatusSelect = (eventKey: any) => {
-        this.setState({ Status: eventKey });
-    };
-
-    handlePriority = (eventKey: any) => {
-        this.setState({ Priority: eventKey });
+    handleChange = (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = event.target;
+        this.setState(
+            {
+                ...this.state,
+                [name]:value
+            }
+        )
     };
 
     handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        const currentDateTime = new Date().toString();
+        const currentDateTime = new Date().toLocaleDateString();
         const newTicket: ITicket = {
-            TicketId: generateUniqueId(),
+            TicketId:'INC'+generateUniqueId(),
             Title: this.state.Subject,
             RequestType: this.state.RequestType,
             Description: this.state.Description,
@@ -68,9 +59,13 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
             IsTicketClosed: false,
             Asset: this.state.Asset,
             Subject: this.state.Subject,
+            EmpId:'',
+            EmpName:'',
         };
         CreateNewTicket(newTicket);
         this.resetForm();
+        this.props.getTicketData();
+        this.props.onHide()
     };
 
     resetForm = () => {
@@ -81,11 +76,11 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
             Subject: '',
             Description: '',
             Status: 'Open',
-            CreatedBy: 'User', 
+            CreatedBy: 'User',
             CreatedOn: '',
             ModifiedBy: 'User',
             ModifiedOn: '',
-            ReporingManger : '',
+            ReporingManger: '',
         });
     };
 
@@ -95,7 +90,8 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
 
         return (
             <Modal
-                show={show} onHide={onHide}
+                show={show}
+                onHide={onHide}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
@@ -110,70 +106,113 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
                         <div className="row">
                             <div className="form-group col-6">
                                 <label htmlFor="requestType">Request Type :</label>
-                                <DropdownButton id="requestType" title={RequestType || "Select Request Type"} className="mt-2" onSelect={this.handleRequestTypeSelect}>
-                                    <Dropdown.Item eventKey="Software">Software</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Hardware">Hardware</Dropdown.Item>
-                                </DropdownButton>
+                                <select 
+                                    className="form-control rounded-lg mt-2" 
+                                    name="RequestType"
+                                    value={RequestType}
+                                    onChange={this.handleChange}
+                                >
+                                    <option value="" disabled>Select Task</option>
+                                    <option value="Software">Software</option>
+                                    <option value="Hardware">Hardware</option>
+                                </select>
                             </div>
 
                             <div className="form-group col-6">
                                 <label htmlFor="assets">Assets :</label>
-                                <DropdownButton id="assets" title={Asset || "Select Asset"} className="mt-2" onSelect={this.handleAssetSelect} disabled={RequestType !== 'Hardware'}>
-                                    <Dropdown.Item eventKey="Laptop">Laptop</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Keyboard">Keyboard</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Mouse">Mouse</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Charger">Charger</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Headphones">Headphones</Dropdown.Item>
-                                    <Dropdown.Item eventKey="RAM">RAM</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Others...">Others...</Dropdown.Item>
-                                </DropdownButton>
+                                <select 
+                                    className="form-control rounded-lg mt-2"
+                                    name="Asset"
+                                    value={Asset}
+                                    onChange={this.handleChange}
+                                    disabled={RequestType !== 'Hardware'}
+                                >
+                                    <option value="" disabled>Select Asset</option>
+                                    <option value="Laptop">Laptop</option>
+                                    <option value="Keyboard">Keyboard</option>
+                                    <option value="Mouse">Mouse</option>
+                                    <option value="Charger">Charger</option>
+                                    <option value="Headphones">Headphones</option>
+                                    <option value="RAM">RAM</option>
+                                    <option value="Others...">Others...</option>
+                                </select>
                             </div>
                         </div>
 
                         <div className="row">
                             <div className="form-group col-6">
                                 <label htmlFor="manager">Manager :</label>
-                                <DropdownButton id="manager" title={ReporingManger || "Select Manager"} className="mt-2" onSelect={this.handleManagerSelect}>
-                                    <Dropdown.Item eventKey="Manager 1">Manager 1</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Manager 2">Manager 2</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Manager 3">Manager 3</Dropdown.Item>
-                                </DropdownButton>
+                                <select 
+                                    className="form-control rounded-lg mt-2"
+                                    name="ReporingManger"
+                                    value={ReporingManger}
+                                    onChange={this.handleChange}
+                                >
+                                    <option value="" disabled>Select Manager</option>
+                                    <option value="Manager 1">Manager 1</option>
+                                    <option value="Manager 2">Manager 2</option>
+                                    <option value="Manager 3">Manager 3</option>
+                                </select>
                             </div>
 
                             <div className="form-group col-6">
-                                <label htmlFor="impact">Priority :</label>
-                                <DropdownButton id="priority" title={Priority || "Select Priority"} className="mt-2" onSelect={this.handlePriority}>
-                                    <Dropdown.Item eventKey="1-High">1-High</Dropdown.Item>
-                                    <Dropdown.Item eventKey="2-Medium">2-Medium</Dropdown.Item>
-                                    <Dropdown.Item eventKey="3-Low">3-Low</Dropdown.Item>
-                                </DropdownButton>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="form-group col-12 mb-2">
-                                <label htmlFor="details">Details :</label>
-                                <input type="text" className="form-control" id="details" name="details" maxLength={255} disabled={RequestType !== 'Hardware'} required />
+                                <label htmlFor="priority">Priority :</label>
+                                <select 
+                                    className="form-control rounded-lg mt-2"
+                                    name="Priority"
+                                    value={Priority}
+                                    onChange={this.handleChange}
+                                >
+                                    <option value="" disabled>Select Priority</option>
+                                    <option value="High">1-High</option>
+                                    <option value="Medium">2-Medium</option>
+                                    <option value="Low">3-Low</option>
+                                </select>
                             </div>
                         </div>
 
                         <div className="row">
                             <div className="form-group col-12 mb-2">
                                 <label htmlFor="subject">Subject :</label>
-                                <input type="text" className="form-control" id="subject" name="subject" value={Subject}  />
+                                <input 
+                                    type="text" 
+                                    className="form-control" 
+                                    id="subject" 
+                                    name="Subject" 
+                                    value={Subject} 
+                                    onChange={this.handleChange} 
+                                />
                             </div>
                         </div>
 
                         <div className="row">
                             <div className="form-group col-12 mb-2">
                                 <label htmlFor="description">Description :</label>
-                                <textarea className="form-control" id="description" name="description" value={Description} maxLength={255}></textarea>
+                                <textarea 
+                                    className="form-control" 
+                                    id="description" 
+                                    name="Description" 
+                                    value={Description} 
+                                    onChange={this.handleChange} 
+                                    maxLength={255}
+                                ></textarea>
                             </div>
                         </div>
 
                         <div className="d-flex justify-content-end mt-3">
-                            <button className="btn btn-large btn-secondary rounded-0 me-3" type="button" onClick={this.resetForm}>Reset</button>
-                            <button className="btn btn-large btn-primary rounded-0" type="submit">Add Request</button>
+                            <button 
+                                className="btn btn-large btn-secondary rounded-0 me-3" 
+                                type="button" 
+                                onClick={this.resetForm}
+                            >
+                                Reset
+                            </button>
+                            <button 
+                                className="btn btn-large btn-primary rounded-0" 
+                                type="submit"
+                            >
+                                Add Request
+                            </button>
                         </div>
                     </form>
                 </Modal.Body>

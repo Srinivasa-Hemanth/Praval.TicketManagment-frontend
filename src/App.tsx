@@ -11,6 +11,7 @@ import { MsalProvider, useMsal } from "@azure/msal-react";
 import { msalInstance } from './authConfig';
 import { AccountInfo } from '@azure/msal-browser';
 import { sendMail } from './Services/EmailService';
+import ITAdmin from './Components/ITAdmin/ITAdmin';
 
 const App: React.FC = () => {
   const { instance, accounts } = useMsal();
@@ -59,6 +60,7 @@ const App: React.FC = () => {
             <Route path="/profile" exact render={(props) => <div>Profile</div>} />
             <Route path="/ITsupport" exact render={(props) => <Dashboard cardClicked={'IT Support'} openForm={true} />} />
             <Route path="/Facilities" exact render={(props) => <Dashboard cardClicked={'Facilities'} openForm={true} />} />
+            <Route path="/Itadmin" exact render={(props)=><ITAdmin/>}/>
           </Switch>
         </div>
       </div>

@@ -4,7 +4,7 @@ import AddRequest from '../Forms/AddRequest';
 import { IFormState } from '../../Interfaces/IForm';
 import RequestDevice from '../Forms/RequestDevice';
 import { ITicket } from '../../Interfaces/ITickets';
-import pic from '../../Assets/SVG/undraw_landscape_photographer_blv1.svg';
+import { GetAllTicket } from '../../Services/TicketService';
 
 interface IDashboardProps {
   cardClicked: string;
@@ -45,6 +45,17 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
     }));
   };
 
+  getTicketData=()=>{
+    var Tickets=GetAllTicket()
+    this.setState({
+      requestData:Tickets
+    })
+  }
+
+  componentDidMount(): void {
+    this.getTicketData();
+  }
+
   renderContent() {
     const { cardClicked, showAddRequest, showModal } = this.state;
 
@@ -53,6 +64,7 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
         <AddRequest
           show={showModal}
           onHide={this.closeModal}
+          getTicketData={this.getTicketData}
         />
       );
     }
@@ -63,6 +75,7 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
           <AddRequest
             show={showModal}
             onHide={this.closeModal}
+            getTicketData={this.getTicketData}
           />
         );
       case 'Facilities':
@@ -108,7 +121,7 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
                 <th>Status</th>
                 <th>Modified ON</th>
                 <th>Comments</th>
-                <th>State</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>

@@ -1,0 +1,36 @@
+.total-tickets{
+    background-color: #e8d1fd;
+}
+
+.new-tickets{
+    background-color:#b8d5ff ;
+}
+
+.on-Going-tickets{
+    background-color:#f9dcb5 ;
+}
+
+.Resolved-tickets{
+    background-color:#d3ffb3 ;
+}
+
+.cards-data{
+    font-size: larger;
+    font-weight: 500;
+}
+
+.admin-page{
+    background-color:#f0f0f4 ;
+
+    .border{
+        border: 2px solid #f3f3f3 !important
+    }
+
+    .activeTab{
+        color:#9876e0;
+    }
+
+    .tab{
+        cursor: pointer;
+    }
+}

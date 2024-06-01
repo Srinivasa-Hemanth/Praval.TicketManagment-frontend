@@ -1,0 +1,19 @@
+.ticket-status {
+    width: 23px;
+    //background-color: indianred
+}
+
+/* High Priority */
+.priority-high {
+    background-color: red;
+}
+
+/* Medium Priority */
+.priority-medium {
+    background-color: orange;
+}
+
+/* Low Priority */
+.priority-low {
+    background-color: green;
+}

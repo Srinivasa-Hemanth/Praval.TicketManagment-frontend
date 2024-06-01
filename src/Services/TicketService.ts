@@ -6,3 +6,9 @@ export function CreateNewTicket(Ticket: ITicket) {
     Tickets.push(Ticket);
     localStorage.setItem('Tickets', JSON.stringify(Tickets));
 }
+
+
+export function GetAllTicket(){
+    var users:ITicket[]=JSON.parse(localStorage.getItem('Tickets') as string);
+    return users;
+}
