@@ -1,6 +1,7 @@
 import { Client } from '@microsoft/microsoft-graph-client';
 import 'isomorphic-fetch';
 import { msalInstance } from '../authConfig';
+import { ITicket } from '../Interfaces/ITickets';
 
 // Function to get an access token
 const getToken = async () => {
@@ -21,15 +22,14 @@ const getToken = async () => {
     return null;
 };
 
-export const generateUserEmailContent = (recipientName: string, ticketNumber: string, shortDescription: string, date: string) => {
+export const generateUserEmailContent = (ticket:ITicket,account:any) => {
     return `
-    Dear ${recipientName},
-    Thank you for reaching out to the [Company Name] IT Help Desk. We have received your issue/request and created a support ticket to track its progress. Here are the details:
-    Ticket Number: ${ticketNumber}
-    Issue/Request: ${shortDescription}
-    Date Submitted: ${date}
-    Our IT support team is currently reviewing your issue/request and will contact you shortly to provide assistance or gather additional information if needed.
-    
+    Dear ${ticket.ReporingManger},
+    Please review the IT support request from ${account.name} that requires your approval:
+    Ticket Number: ${ticket.TicketId}
+    Issue/Request: ${ticket.Description}
+    Date Submitted: ${ticket.CreatedOn}
+    Please review the request and provide your approval.
     Best Regards,
     Admin Team
     `;

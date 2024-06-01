@@ -8,20 +8,19 @@ import praval_logo from '../../Assets/Images/Latest-Logo.png';
 import './Header.css';
 import { AccountInfo } from '@azure/msal-browser';
 import { Role } from '../../Common/Enum';
-
+ 
 interface IHeaderState {
   isManager: boolean;
   dropdownOpen: boolean;
 }
-
+ 
 interface IHeaderProps {
   SignIn: () => void;
   SignOut: () => void;
-  userName: string;
-  account: AccountInfo;
-  role:string
+  account: AccountInfo; 
+  role: any;
 }
-
+ 
 class Header extends React.Component<IHeaderProps, IHeaderState> {
   constructor(props: IHeaderProps) {
     super(props);
@@ -31,16 +30,16 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     };
     this.toggleDropdown = this.toggleDropdown.bind(this);
   }
-
+ 
   toggleDropdown() {
     this.setState((prevState) => ({
       dropdownOpen: !prevState.dropdownOpen,
     }));
   }
-
+ 
   render() {
     const { isManager, dropdownOpen } = this.state;
-    const {role}=this.props;
+    const {role}=this.props
     return (
       <header className='d-flex align-items-center justify-content-between p-3'>
         <div>
@@ -62,8 +61,8 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
               <Link to="/my-requests" className="text-decoration-none text-white">
                 <img src={requests_icon} alt="Requests" /> My Requests
               </Link>
-            </li>
-            { role==Role.Manager || role==Role.IT_Admin && (
+            </li> */}
+            { (role==Role.Manager || role == Role.IT_Admin) &&(
               <li className="nav-link">
                 <Link to="/approvals" className="text-decoration-none text-white">
                   <img src={requests_icon} alt="Approvals" /> Approvals
@@ -81,7 +80,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
               aria-haspopup="true"
               aria-expanded={dropdownOpen}
             >
-              <img src={profile_icon} alt="Profile" /> Welcome {this.props.account?.username ? this.props.account?.name: ''}
+              <img src={profile_icon} alt="Profile" /> Welcome, {this.props.account?.name ? this.props.account?.name : ''}
             </div>
             {dropdownOpen && (
               <div className="dropdown-menu show" aria-labelledby="dropdownMenuButton">
@@ -96,5 +95,5 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     );
   }
 }
-
+ 
 export default Header;

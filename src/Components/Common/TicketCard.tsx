@@ -5,10 +5,12 @@ import { Priority } from '../../Common/Enum';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { UpdateTicket } from '../../Services/TicketService';
+import { toast } from 'react-toastify';
 
 interface ITicketCardProps {
     ticketData?: ITicket;
     RequestedFrom : string;
+    reloadData: () => void;
 }
 
 interface ITicketCardState {
@@ -68,6 +70,8 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
             UpdateTicket(updatedTicket as ITicket);
             this.setState({ isModalOpen: false });
         }
+        toast.success("Request Approved")
+        this.props.reloadData();
     };
 
     handleClosee = () => {
@@ -79,6 +83,8 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
             UpdateTicket(updatedTicket as ITicket);
             this.setState({ isModalOpen: false });
         }
+        toast.success("Ticked Closed")
+        this.props.reloadData();
     };
 
     handleReject = () => {
@@ -90,6 +96,8 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
             UpdateTicket(updatedTicket as ITicket);
             this.setState({ isModalOpen: false });
         }
+        toast.error("Request Rejected")
+        this.props.reloadData();
     };
 
     render() {

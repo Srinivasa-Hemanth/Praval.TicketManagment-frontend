@@ -6,6 +6,7 @@ import { ITicket } from '../../Interfaces/ITickets';
 import { generateUniqueId } from '../../Services/Helper';
 import { generateUserEmailContent, sendMail } from '../../Services/EmailService';
 import { GetManagerEmail } from '../../Services/UserService';
+import { toast } from 'react-toastify';
 
 interface AddRequestProps {
     show: boolean;
@@ -51,7 +52,7 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
             { name: '', email: this.props.account?.Preffered_UserName},
             { name: '', email: managerEmail },
         ];
-        sendMail(recipients,ticket.TicketId as string, generateUserEmailContent(this.props.account?.Preffered_UserName,ticket?.TicketId as string,ticket?.Description,ticket?.CreatedOn))
+        sendMail(recipients,ticket.TicketId as string, generateUserEmailContent(ticket,this.props.account))
     }
 
     handleSubmit = (event: React.FormEvent) => {
@@ -74,13 +75,19 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
             Subject: this.state.Subject,
             EmpId:'',
             EmpName:'',
+            EmpEmail:this.props.account?.username
         };
         CreateNewTicket(newTicket);
         this.resetForm();
         this.props.getTicketData();
-        this.sendMails(newTicket)
-        this.props.onHide()
+        this.sendMails(newTicket);
+        this.setNotifications()
+        this.props.onHide();
     };
+
+    setNotifications=()=>{
+        toast.success("Request Created Success fully")
+    }
 
     resetForm = () => {
         this.setState({

@@ -48,8 +48,11 @@ export default class MyRequests extends Component<IMyRequestsProps,MyRequestsSta
         tickets:tickets
     })
     if(this.state.activeTab!=TicketStatus.All_Tickets)
-    {   if(this.state.activeTab==TicketStatus.In_Progress)
+    {   
+        debugger
+        if(this.state.activeTab==TicketStatus.In_Progress)
         {
+            console.log(tickets[0].Status)
             filterTickets=tickets.filter((ticket)=>(ticket.Status==this.state.activeTab)|| (ticket.Status==TicketStatus.Open))
         }
         else{
@@ -76,6 +79,10 @@ export default class MyRequests extends Component<IMyRequestsProps,MyRequestsSta
     })
   }
 
+  reloadData=()=>{
+    this.getTickets()
+  }
+
   render() {
     const {activeTab,filteredTicket,inProgressCount,closedCount,resolvedCount}=this.state
     return (
@@ -98,7 +105,7 @@ export default class MyRequests extends Component<IMyRequestsProps,MyRequestsSta
             </div>
             <div className='tickets-card border-0 p-4 d-flex flex-column gap-4'>
                 {filteredTicket.map((ticket,index)=>(
-                    <TicketCard RequestedFrom='MyRequests' ticketData={ticket}/>
+                    <TicketCard RequestedFrom='MyRequests' ticketData={ticket} reloadData={this.reloadData}/>
                 ))}
             </div>
         </div>

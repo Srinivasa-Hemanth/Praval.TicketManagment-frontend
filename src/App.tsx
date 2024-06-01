@@ -13,6 +13,8 @@ import { AccountInfo } from '@azure/msal-browser';
 import { sendMail } from './Services/EmailService';
 import ITAdmin from './Components/ITAdmin/ITAdmin';
 import { GetUserRole } from './Services/UserService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App: React.FC = () => {
   const { instance, accounts } = useMsal();
@@ -69,8 +71,9 @@ const App: React.FC = () => {
   return (
     <Router>
       <div>
+      <ToastContainer />
         <div>
-          <Header SignIn={handleLogin} SignOut={handleLogout} userName={firstName} account={accounts[0]} role={Role}/>
+          <Header SignIn={handleLogin} SignOut={handleLogout}  account={accounts[0]} role={Role}/>
         </div>
         <div>
           <Switch>

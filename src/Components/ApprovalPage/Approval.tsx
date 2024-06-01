@@ -76,6 +76,10 @@ export default class Approval extends Component<IApprovalProps,IApprovalProps> {
     })
   }
 
+  reloadData=()=>{
+    this.getTickets()
+  }
+
   render() {
     const {activeTab,filteredTicket,inProgressCount,closedCount,resolvedCount}=this.state
     return (
@@ -132,7 +136,7 @@ export default class Approval extends Component<IApprovalProps,IApprovalProps> {
             </div>
             <div className='tickets-card border-0 p-4 d-flex flex-column gap-4'>
                 {filteredTicket.map((ticket,index)=>(
-                    <TicketCard RequestedFrom='Approvals' ticketData={ticket}/>
+                    <TicketCard RequestedFrom='Approvals' ticketData={ticket} reloadData={this.reloadData}/>
                 ))}
             </div>
         </div>

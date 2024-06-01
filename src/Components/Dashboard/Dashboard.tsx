@@ -88,18 +88,19 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
     if(this.state.activeTab!=TicketStatus.All_Tickets)
     {   if(this.state.activeTab==TicketStatus.In_Progress)
         {
-            // filterTickets=tickets.filter((ticket)=>((ticket.Status==this.state.activeTab)|| (ticket.Status==TicketStatus.Open) && ticket.EmpName==""))
+            filterTickets=tickets.filter((ticket)=>((ticket.Status==this.state.activeTab || ticket.Status==TicketStatus.Open) && ticket.EmpEmail==this.props.account?.username))
         }
         else{
-            // filterTickets=tickets.filter((ticket)=>(ticket.Status==this.state.activeTab) && (ticket.EmpName==""))
+            filterTickets=tickets.filter((ticket)=>(ticket.Status==this.state.activeTab) && (ticket.EmpEmail==this.props.account?.username))
         }
     }
+    
     inProgressCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.In_Progress || ticket.Status==TicketStatus.Open).length;
     resolvedCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.Resolved).length;
     console.log(tickets.filter((ticket)=>ticket.Status==TicketStatus.Resolved))
     closedCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.Closed).length
     this.setState({
-        filteredTicket:filterTickets? filterTickets :tickets,
+        filteredTicket:filterTickets? filterTickets : tickets.filter((ticket)=>ticket.EmpEmail==this.props.account?.username),
         inProgressCount,
         resolvedCount,
         closedCount
@@ -150,6 +151,10 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
     }
   }
 
+  reloadData=()=>{
+    this.getTickets()
+  }
+
   render() {
     const { requestData } = this.state;
     const {activeTab,filteredTicket,inProgressCount,closedCount,resolvedCount}=this.state
@@ -187,8 +192,8 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
                   </div>
               </div>
               <div className='tickets-card border-0 p-4 d-flex flex-column gap-4'>
-                {filteredTicket.map((ticket,index)=>(
-                  <TicketCard RequestedFrom='Dashboard' ticketData={ticket}/>
+                {filteredTicket.slice().reverse().map((ticket,index)=>(
+                  <TicketCard RequestedFrom='Dashboard' ticketData={ticket} reloadData={this.reloadData}/>
                 ))}
               </div>
           </div>
