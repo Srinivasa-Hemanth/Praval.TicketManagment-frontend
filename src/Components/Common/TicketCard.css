@@ -36,3 +36,7 @@
     border-radius: 4px;
     width: 50rem;
 }
+
+.discussions,.open-ticket {
+    cursor: pointer;
+}

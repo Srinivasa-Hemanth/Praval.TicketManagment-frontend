@@ -49,7 +49,9 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
   };
 
   closeModal = () => {
-    this.setState({ showModal: false, showAddRequest: false, cardClicked: '' });
+    this.setState({ showModal: false, showAddRequest: false, cardClicked: '' },()=>{
+      this.getTickets();
+    });
   };
 
   handleAddRequestSubmit = (ITicket: ITicket) => {
@@ -164,37 +166,29 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
           </button>
         </div>
         <div className='p-4 admin-page border'>
-        <div className='ps-4 fs-3'>Tickets Overview</div>
-        <div className='tickets-card-container card border-0 mx-3'>
-            <div className="border-bottom d-flex gap-lg-5 mx-4 py-4 tab-navigation px-1">
-                <div className={`tab ${activeTab==TicketStatus.All_Tickets?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.All_Tickets)}>
-                    All Tickets
-                </div>
-                <div className={`tab ${activeTab==TicketStatus.In_Progress?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.In_Progress)}>
-                    In Progress
-                </div>
-                <div className={`tab ${activeTab==TicketStatus.Resolved?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.Resolved)}>
-                    Resolved
-                </div>
-                <div className={`tab ${activeTab==TicketStatus.Closed?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.Closed)}>
-                    Closed
-                </div>
-            </div>
-            <div className='tickets-card border-0 p-4 d-flex flex-column gap-4'>
+          <div className='ps-4 fs-3'>Tickets Overview</div>
+          <div className='tickets-card-container card border-0 mx-3'>
+              <div className="border-bottom d-flex gap-lg-5 mx-4 py-4 tab-navigation px-1">
+                  <div className={`tab ${activeTab==TicketStatus.All_Tickets?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.All_Tickets)}>
+                      All Tickets
+                  </div>
+                  <div className={`tab ${activeTab==TicketStatus.In_Progress?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.In_Progress)}>
+                      In Progress
+                  </div>
+                  <div className={`tab ${activeTab==TicketStatus.Resolved?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.Resolved)}>
+                      Resolved
+                  </div>
+                  <div className={`tab ${activeTab==TicketStatus.Closed?'activeTab':''}`} onClick={()=>this.handleTabChange(TicketStatus.Closed)}>
+                      Closed
+                  </div>
+              </div>
+              <div className='tickets-card border-0 p-4 d-flex flex-column gap-4'>
                 {filteredTicket.map((ticket,index)=>(
-                    <TicketCard RequestedFrom='Dashboard' ticketData={ticket}/>
+                  <TicketCard RequestedFrom='Dashboard' ticketData={ticket}/>
                 ))}
-            </div>
-        </div>
-      </div>
-        {requestData.length === 0 && (
-          <div className='d-flex mt-5'>
-            <div className='w-50'></div>
-            <div className='d-flex justify-content-end'>
-              <img src={pic} className='w-50' alt="no-data" />
-            </div>
+              </div>
           </div>
-        )}
+        </div>
         {this.state.showModal && this.renderContent()}
       </div>
     );

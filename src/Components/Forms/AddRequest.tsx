@@ -111,6 +111,7 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
                                     name="RequestType"
                                     value={RequestType}
                                     onChange={this.handleChange}
+                                    required
                                 >
                                     <option value="" disabled>Select Task</option>
                                     <option value="Software">Software</option>
@@ -126,6 +127,7 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
                                     value={Asset}
                                     onChange={this.handleChange}
                                     disabled={RequestType !== 'Hardware'}
+                                    required
                                 >
                                     <option value="" disabled>Select Asset</option>
                                     <option value="Laptop">Laptop</option>
@@ -147,6 +149,7 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
                                     name="ReporingManger"
                                     value={ReporingManger}
                                     onChange={this.handleChange}
+                                    required
                                 >
                                     <option value="" disabled>Select Manager</option>
                                     <option value="Manager 1">Manager 1</option>
@@ -162,6 +165,7 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
                                     name="Priority"
                                     value={Priority}
                                     onChange={this.handleChange}
+                                    required
                                 >
                                     <option value="" disabled>Select Priority</option>
                                     <option value="High">1-High</option>
@@ -181,6 +185,7 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
                                     name="Subject" 
                                     value={Subject} 
                                     onChange={this.handleChange} 
+                                    required
                                 />
                             </div>
                         </div>
@@ -195,6 +200,7 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
                                     value={Description} 
                                     onChange={this.handleChange} 
                                     maxLength={255}
+                                    required
                                 ></textarea>
                             </div>
                         </div>

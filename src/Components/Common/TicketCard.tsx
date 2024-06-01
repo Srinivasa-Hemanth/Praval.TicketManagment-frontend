@@ -70,6 +70,17 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
         }
     };
 
+    handleClosee = () => {
+        if (this.props.ticketData) {
+            const updatedTicket = {
+                ...this.props.ticketData,
+                Status: 'Closed'
+            };
+            UpdateTicket(updatedTicket as ITicket);
+            this.setState({ isModalOpen: false });
+        }
+    };
+
     handleReject = () => {
         if (this.props.ticketData) {
             const updatedTicket = {
@@ -104,9 +115,12 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
                 <div className='description'>
                     {ticketData?.Description}
                 </div>
+                <div className='d-flex justify-content-end'>
+                    {ticketData?.Status}
+                </div>
                 <hr className=''></hr>
                 <div className='d-flex justify-content-end gap-3'>
-                    <div  className='d-flex justify-content-end  text-primary'>Discussions</div>
+                    <div  className='d-flex justify-content-end  text-primary discussions'>Discussions</div>
                     <div className='d-flex justify-content-end text-primary open-ticket' onClick={this.openModal}>
                         Open Ticket
                     </div>
@@ -168,6 +182,14 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
                         </Button>
                         <Button className='btn' variant="success" onClick={this.handleApprove}>
                         Approve
+                        </Button>
+                    </Modal.Footer>
+                    )}
+
+                    {(this.props.RequestedFrom.toLocaleLowerCase() === "dashboard" && (this.props.ticketData?.Status!="Closed")) && (
+                    <Modal.Footer>
+                        <Button className='btn' variant="success" onClick={this.handleClosee}>
+                            Close Ticket
                         </Button>
                     </Modal.Footer>
                     )}
