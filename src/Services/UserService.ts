@@ -15,3 +15,13 @@ export function GetUserById(EmpId:string){
     var users:Iuser[]=JSON.parse(localStorage.getItem('Users') as string);
     return users.filter((user)=>user.EmpId==EmpId);
 }
+
+export function GetManagerEmail(EmpEmail:string){
+    var users=GetAllUser()
+    return users.filter((user)=>user.Email=EmpEmail)[0].MangerEmail
+}
+
+export function GetUserRole(email:string){
+    var users=GetAllUser()
+    return users.filter((user)=>user.Email=email)[0].Role;
+}

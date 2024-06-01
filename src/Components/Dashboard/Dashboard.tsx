@@ -5,10 +5,12 @@ import { IFormState } from '../../Interfaces/IForm';
 import RequestDevice from '../Forms/RequestDevice';
 import { ITicket } from '../../Interfaces/ITickets';
 import { GetAllTicket } from '../../Services/TicketService';
+import pic from '../../Assets/SVG/undraw_landscape_photographer_blv1.svg'
 
 interface IDashboardProps {
   cardClicked: string;
   openForm: boolean;
+  account:any;
 }
 
 interface IUserDashboardState {
@@ -65,6 +67,7 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
           show={showModal}
           onHide={this.closeModal}
           getTicketData={this.getTicketData}
+          account={this.props.account}
         />
       );
     }
@@ -76,6 +79,7 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
             show={showModal}
             onHide={this.closeModal}
             getTicketData={this.getTicketData}
+            account={this.props.account}
           />
         );
       case 'Facilities':
@@ -92,8 +96,9 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
 
   render() {
     const { requestData } = this.state;
-
+    console.log(this.props.account)
     return (
+      
       <div className='mx-3'>
         <div className='d-flex my-4 justify-content-end'>
           <button className="button" onClick={this.handleAddRequestClick}>

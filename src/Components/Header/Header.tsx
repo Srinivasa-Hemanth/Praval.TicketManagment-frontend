@@ -6,6 +6,8 @@ import requests_icon from '../../Assets/Images/file-earmark-text.svg';
 import profile_icon from '../../Assets/Images/person-fill.svg';
 import praval_logo from '../../Assets/Images/Latest-Logo.png';
 import './Header.css';
+import { AccountInfo } from '@azure/msal-browser';
+import { Role } from '../../Common/Enum';
 
 interface IHeaderState {
   isManager: boolean;
@@ -16,6 +18,8 @@ interface IHeaderProps {
   SignIn: () => void;
   SignOut: () => void;
   userName: string;
+  account: AccountInfo;
+  role:string
 }
 
 class Header extends React.Component<IHeaderProps, IHeaderState> {
@@ -36,6 +40,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
 
   render() {
     const { isManager, dropdownOpen } = this.state;
+    const {role}=this.props;
     return (
       <header className='d-flex align-items-center justify-content-between p-3'>
         <div>
@@ -58,7 +63,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 <img src={requests_icon} alt="Requests" /> My Requests
               </Link>
             </li>
-            {isManager && (
+            { role==Role.Manager || role==Role.IT_Admin && (
               <li className="nav-link">
                 <Link to="/approvals" className="text-decoration-none text-white">
                   <img src={requests_icon} alt="Approvals" /> Approvals
@@ -76,7 +81,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
               aria-haspopup="true"
               aria-expanded={dropdownOpen}
             >
-              <img src={profile_icon} alt="Profile" /> Welcome, {this.props.userName}
+              <img src={profile_icon} alt="Profile" /> Welcome {this.props.account?.username ? this.props.account?.name: ''}
             </div>
             {dropdownOpen && (
               <div className="dropdown-menu show" aria-labelledby="dropdownMenuButton">

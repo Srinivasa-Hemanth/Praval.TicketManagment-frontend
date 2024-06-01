@@ -8,6 +8,7 @@ export interface Iuser{
     Department:string;
     ReportingManager?:string;
     MangerEmail?:string;
+    MangerName?:string;
 }
 
 interface IAsset{

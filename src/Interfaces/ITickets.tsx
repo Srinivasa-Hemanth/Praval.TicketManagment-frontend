@@ -3,7 +3,8 @@ export interface ITicket {
     Title?: string;
     Asset : string;
     EmpId:string;
-    EmpName:string
+    EmpName?:string;
+    EmpEmail?:string;
     RequestType: string;
     Description: string;
     Status: string;

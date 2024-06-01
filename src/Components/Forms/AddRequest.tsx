@@ -4,11 +4,14 @@ import './Form.css';
 import { CreateNewTicket } from '../../Services/TicketService';
 import { ITicket } from '../../Interfaces/ITickets';
 import { generateUniqueId } from '../../Services/Helper';
+import { generateUserEmailContent, sendMail } from '../../Services/EmailService';
+import { GetManagerEmail } from '../../Services/UserService';
 
 interface AddRequestProps {
     show: boolean;
     onHide: () => void;
-    getTicketData: () => void; 
+    getTicketData: () => void;
+    account:any; 
 }
 
 class AddRequest extends React.Component<AddRequestProps, ITicket> {
@@ -41,6 +44,16 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
         )
     };
 
+    sendMails=(ticket:ITicket)=>{
+        debugger
+        var managerEmail=GetManagerEmail(this.props.account?.username);
+        const recipients = [
+            { name: '', email: this.props.account?.Preffered_UserName},
+            { name: '', email: managerEmail },
+        ];
+        sendMail(recipients,ticket.TicketId as string, generateUserEmailContent(this.props.account?.Preffered_UserName,ticket?.TicketId as string,ticket?.Description,ticket?.CreatedOn))
+    }
+
     handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         const currentDateTime = new Date().toLocaleDateString();
@@ -65,6 +78,7 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
         CreateNewTicket(newTicket);
         this.resetForm();
         this.props.getTicketData();
+        this.sendMails(newTicket)
         this.props.onHide()
     };
 
@@ -222,3 +236,4 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
 }
 
 export default AddRequest;
+
