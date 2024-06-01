@@ -75,7 +75,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
             <div
               className="glass"
               data-text="Beware"
-              onClick={() => this.handleCardClick(`Please be aware that scam-related messages are being sent to employees, purportedly from SASHI. Remain vigilant and report any suspicious communications immediately.`)}
+              onClick={() => this.handleCardClick(`Please be aware that scam-related messages are being sent to employees. Remain vigilant and report any suspicious communications immediately.`)}
             >
               <img src={scam_img} alt="Beware" className="glass-image" />
             </div>
