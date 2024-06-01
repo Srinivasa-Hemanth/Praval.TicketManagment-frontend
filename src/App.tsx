@@ -17,7 +17,6 @@ const App: React.FC = () => {
   const [firstName, setFirstName] = useState<any>(null);
 
   useEffect(() => {
-    debugger
     if (accounts.length === 0) {
       instance.loginRedirect().catch(e => {
         console.error(e);

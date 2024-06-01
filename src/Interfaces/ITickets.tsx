@@ -8,7 +8,7 @@ export interface ITicket {
     Priority: string;
     CreatedBy: string;
     CreatedOn: string;
-    ModifiedBy: string;
+    ModifiedBy: string; 
     ModifiedOn: string;
     ReporingManger: string;
     AssignedTo?: string;

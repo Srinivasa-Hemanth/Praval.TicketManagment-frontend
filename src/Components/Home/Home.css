@@ -1,6 +1,171 @@
-.home-conent{
-    height:92vh;
-    background-image: url(/src/Assets/Images/it_service.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
+.container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 51vh;
+}
+.container .glass {
+    position: relative;
+    width: 180px;
+    height: 200px;
+    background: linear-gradient(#fff2, transparent);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 25px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+    border-radius: 10px;
+    margin: 0 -45px;
+    backdrop-filter: blur(10px);
+}
+  
+.container:hover .glass {
+    transform: rotate(0deg);
+    margin: 0 10px;
+}
+  
+.container .glass::before {
+    content: attr(data-text);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+  
+.container .glass svg {
+    font-size: 2.5em;
+    fill: #fff;
+}
+  
+.home-content {
+    height: 90vh;
+}
+  
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+  
+.card-item .icon {
+    margin-bottom: 1rem;
+}
+  
+.card-item h4 {
+    margin-bottom: 10px;
+}
+  
+.card-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+  
+.card-item:hover {
+    transform: scale(1.05);
+}
+  
+.slider {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 51vh;
+}
+  
+.slider-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+  
+.slider-text {
+    font-size: 1.5em;
+    color: bisque;
+    font-family:'poppins';
+}
+  
+.selected-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+  
+.container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+  
+.container .glass {
+    position: relative;
+    width: 200px;
+    height: 250px;
+    background: linear-gradient(#fff2, transparent);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 25px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+}
+  
+.container .glass img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+  
+.container .glass:hover {
+    transform: scale(1.05);
+}
+  
+.container .glass::before {
+    content: attr(data-text);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+  
+.glass-text {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    color: #fff;
+}
+  
+.Todays-update{
+    color: bisque;
+}
+
+.home-content{
+    background-color: black;
 }

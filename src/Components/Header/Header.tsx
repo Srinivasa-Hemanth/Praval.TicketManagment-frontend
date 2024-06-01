@@ -5,68 +5,91 @@ import dashboard_icon from '../../Assets/Images/speedometer2.svg';
 import requests_icon from '../../Assets/Images/file-earmark-text.svg';
 import profile_icon from '../../Assets/Images/person-fill.svg';
 import praval_logo from '../../Assets/Images/Latest-Logo.png';
+import './Header.css';
 
-interface IHeaderState{
-    isManager: boolean;
+interface IHeaderState {
+  isManager: boolean;
+  dropdownOpen: boolean;
 }
 
-interface IHeaderProps{
-  SignIn: () => void; 
-  SignOut: () => void; 
+interface IHeaderProps {
+  SignIn: () => void;
+  SignOut: () => void;
   userName: string;
 }
 
-class Header extends React.Component<IHeaderProps,IHeaderState>{
-    constructor(props:IHeaderProps){
-        super(props)
-        this.state = {
-            isManager: true,
-        };
-    }
+class Header extends React.Component<IHeaderProps, IHeaderState> {
+  constructor(props: IHeaderProps) {
+    super(props);
+    this.state = {
+      isManager: true,
+      dropdownOpen: false,
+    };
+    this.toggleDropdown = this.toggleDropdown.bind(this);
+  }
 
-    render(){
-        const { isManager } = this.state;
-        return(
-            <header className='d-flex align-items-center justify-content-between bg-dark p-3'>
-              <div>
-                <img src={praval_logo} width={120} alt="praval_logo" />
+  toggleDropdown() {
+    this.setState((prevState) => ({
+      dropdownOpen: !prevState.dropdownOpen,
+    }));
+  }
+
+  render() {
+    const { isManager, dropdownOpen } = this.state;
+    return (
+      <header className='d-flex align-items-center justify-content-between p-3'>
+        <div>
+          <img src={praval_logo} width={120} alt="praval_logo" />
+        </div>
+        <nav className="navbar">
+          <ul className="list-unstyled d-flex gap-4 mb-0">
+            <li className="nav-link">
+              <Link to="/" className="text-decoration-none text-white">
+                <img src={home_icon} alt="Home" /> Home
+              </Link>
+            </li>
+            <li className="nav-link">
+              <Link to="/dashboard" className="text-decoration-none text-white">
+                <img src={dashboard_icon} alt="Dashboard" /> Dashboard
+              </Link>
+            </li>
+            <li className="nav-link">
+              <Link to="/my-requests" className="text-decoration-none text-white">
+                <img src={requests_icon} alt="Requests" /> My Requests
+              </Link>
+            </li>
+            {isManager && (
+              <li className="nav-link">
+                <Link to="/approvals" className="text-decoration-none text-white">
+                  <img src={requests_icon} alt="Approvals" /> Approvals
+                </Link>
+              </li>
+            )}
+          </ul>
+        </nav>
+        <div className="d-flex text-white align me-4 profile-info pe-5">
+          <li className="nav-link dropdown">
+            <div
+              onClick={this.toggleDropdown}
+              className="text-decoration-none text-white dropdown-toggle"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded={dropdownOpen}
+            >
+              <img src={profile_icon} alt="Profile" /> Welcome, {this.props.userName}
+            </div>
+            {dropdownOpen && (
+              <div className="dropdown-menu show" aria-labelledby="dropdownMenuButton">
+                <a className="dropdown-item" href="#" onClick={this.props.SignOut}>
+                  <span className="icon icon-sign-out"></span> Log out
+                </a>
               </div>
-              <nav className="navbar">
-                <ul className="list-unstyled d-flex gap-4 mb-0">
-                  <li className="nav-link">
-                    <Link to="/" className="text-decoration-none text-white">
-                      <img src={home_icon} alt="Home" /> Home
-                    </Link>
-                  </li>
-                  <li className="nav-link">
-                    <Link to="/dashboard" className="text-decoration-none text-white">
-                      <img src={dashboard_icon} alt="Dashboard" /> Dashboard
-                    </Link>
-                  </li>
-                  <li className="nav-link">
-                    <Link to="/my-requests" className="text-decoration-none text-white">
-                      <img src={requests_icon} alt="Requests" /> My Requests
-                    </Link>
-                  </li>
-                  {isManager && (
-                    <li className="nav-link">
-                      <Link to="/approvals" className="text-decoration-none text-white">
-                        <img src={requests_icon} alt="Approvals" /> Approvals
-                      </Link>
-                    </li>
-                  )}
-                </ul>
-              </nav>
-              <div className="d-flex text-white align me-4 profile-info">
-                  <li className="nav-link">
-                    <div onClick={this.props.SignIn} className="text-decoration-none text-white">
-                      <img src={profile_icon} alt="Profile" /> Welcome,{this.props.userName}
-                    </div>
-                  </li>
-              </div>
-          </header>
-        );
-    }
+            )}
+          </li>
+        </div>
+      </header>
+    );
+  }
 }
 
 export default Header;

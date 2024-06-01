@@ -12,9 +12,9 @@
     display: flex;
     font-family: "Poppins", sans-serif;
     /* background-image: url('../src/Assets/Images/standard-quality-control-concept-m_23-2150041859.jpg'); */
-    background-attachment: fixed;
+    /* background-attachment: fixed;
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
   }
   header{
     background-color: transparent !important;
@@ -70,6 +70,9 @@
     width: 100%;
   }
   
+  a{
+    font-size: large;
+  }
   a:hover {
     color: rgba(15,113,177,192) !important;
   }
@@ -77,42 +80,6 @@
   .nav-link a:hover img {
     filter: invert(47%) sepia(44%) saturate(2386%) hue-rotate(161deg) brightness(93%) contrast(101%);
   }
-  
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    /* background-color: #eff3f6; */
-  }
-  
-  .card-item .icon {
-    margin-bottom: 1rem;
-  }
-  
-  .card-item h4 {
-    margin-bottom: 10px;
-  }
-  
-  .space {
-    height: 50vh;
-  }
-  
-  .card-item {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-    }
-    
-    .card-item:hover {
-      transform: scale(1.05);
-    }
   
   .modal-dialog {
     max-width: none !important; 

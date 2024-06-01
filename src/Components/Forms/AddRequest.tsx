@@ -50,11 +50,6 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
         this.setState({ Priority: eventKey });
     };
 
-    handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.target;
-        this.setState({ [name]: value } as Pick<ITicket, keyof ITicket>);
-    };
-
     handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         const currentDateTime = new Date().toString();
@@ -165,14 +160,14 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
                         <div className="row">
                             <div className="form-group col-12 mb-2">
                                 <label htmlFor="subject">Subject :</label>
-                                <input type="text" className="form-control" id="subject" name="subject" value={Subject} onChange={this.handleInputChange} />
+                                <input type="text" className="form-control" id="subject" name="subject" value={Subject}  />
                             </div>
                         </div>
 
                         <div className="row">
                             <div className="form-group col-12 mb-2">
                                 <label htmlFor="description">Description :</label>
-                                <textarea className="form-control" id="description" name="description" value={Description} onChange={this.handleInputChange} maxLength={255}></textarea>
+                                <textarea className="form-control" id="description" name="description" value={Description} maxLength={255}></textarea>
                             </div>
                         </div>
 

@@ -4,6 +4,7 @@ import AddRequest from '../Forms/AddRequest';
 import { IFormState } from '../../Interfaces/IForm';
 import RequestDevice from '../Forms/RequestDevice';
 import { ITicket } from '../../Interfaces/ITickets';
+import pic from '../../Assets/SVG/undraw_landscape_photographer_blv1.svg';
 
 interface IDashboardProps {
   cardClicked: string;
@@ -133,6 +134,14 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
             </tbody>
           </table>
         </div>
+        {requestData.length === 0 && (
+          <div className='d-flex mt-5'>
+            <div className='w-50'></div>
+            <div className='d-flex justify-content-end'>
+              <img src={pic} className='w-50' alt="no-data" />
+            </div>
+          </div>
+        )}
         {this.state.showModal && this.renderContent()}
       </div>
     );
