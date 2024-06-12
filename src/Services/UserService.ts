@@ -18,10 +18,18 @@ export function GetUserById(EmpId:string){
 
 export function GetManagerEmail(EmpEmail:string){
     var users=GetAllUser()
-    return users.filter((user)=>user.Email=EmpEmail)[0].MangerEmail
+    return users.filter((user)=>user.Email==EmpEmail)[0]?.MangerEmail
 }
 
-export function GetUserRole(email:string){
-    var users=GetAllUser()
-    return users.filter((user)=>user.Email=email)[0].Role;
+export function GetUserRole(email: string) {
+    var users = GetAllUser();
+    var role = "";
+    
+    for (let user of users) {
+        if (user.Email?.toLowerCase() === email?.toLowerCase()) {
+            role = user.Role;
+            break;
+        }
+    }
+    return role
 }

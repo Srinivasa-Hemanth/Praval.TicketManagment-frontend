@@ -94,9 +94,9 @@ class RequestDevice extends React.Component<RequestDeviceProps, IFormState> {
                             <div className="form-group col-4">
                                 <label htmlFor="manager">Manager :</label>
                                 <DropdownButton id="manager" title={details || "Select Manager"} className="mt-2" onSelect={this.handleManagerSelect}>
-                                    <Dropdown.Item eventKey="Manager 1">Manager 1</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Manager 2">Manager 2</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Manager 3">Manager 3</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Manager 1">Hemanth</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Manager 2">Chandhana</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Manager 3">Pradeep</Dropdown.Item>
                                 </DropdownButton>
                             </div>
 

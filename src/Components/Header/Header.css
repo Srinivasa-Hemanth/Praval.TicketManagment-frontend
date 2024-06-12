@@ -2,7 +2,9 @@ header {
     background-color: black !important;
 
 }
-
 .dropdown-toggle{
     font-size: large;
+}
+.nav-link.text-primary{
+    color: rgba(15,113,177,192) !important;
 }

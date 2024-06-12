@@ -46,7 +46,6 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
     };
 
     sendMails=(ticket:ITicket)=>{
-        debugger
         var managerEmail=GetManagerEmail(this.props.account?.username);
         const recipients = [
             { name: '', email: this.props.account?.Preffered_UserName},
@@ -73,8 +72,9 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
             IsTicketClosed: false,
             Asset: this.state.Asset,
             Subject: this.state.Subject,
-            EmpId:'',
-            EmpName:'',
+            EmpId:'P-1073',
+            EmpName:'Seetha Ram Pradeep',
+            AssignedTo:'Sujith',
             EmpEmail:this.props.account?.username
         };
         CreateNewTicket(newTicket);
@@ -134,7 +134,7 @@ class AddRequest extends React.Component<AddRequestProps, ITicket> {
                                     onChange={this.handleChange}
                                     required
                                 >
-                                    <option value="" disabled>Select Task</option>
+                                    <option value="" disabled>Select Type</option>
                                     <option value="Software">Software</option>
                                     <option value="Hardware">Hardware</option>
                                 </select>

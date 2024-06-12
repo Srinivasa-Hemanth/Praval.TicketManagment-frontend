@@ -8,6 +8,7 @@ import { GetAllTicket } from '../../Services/TicketService';
 import pic from '../../Assets/SVG/undraw_landscape_photographer_blv1.svg';
 import { TicketStatus } from '../../Common/Enum';
 import TicketCard from '../Common/TicketCard';
+import MyRequests from '../MyRequests/MyRequests';
 
 interface IDashboardProps {
   cardClicked: string;
@@ -75,37 +76,39 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
   }
 
   getTickets=()=>
-  {
-    var tickets=GetAllTicket()
-    var  filterTickets;
-    var  inProgressCount;
-    var  resolvedCount
-    var  closedCount 
-    console.log(tickets)
-    this.setState({
-        tickets:tickets
-    })
-    if(this.state.activeTab!=TicketStatus.All_Tickets)
-    {   if(this.state.activeTab==TicketStatus.In_Progress)
-        {
-            filterTickets=tickets.filter((ticket)=>((ticket.Status==this.state.activeTab || ticket.Status==TicketStatus.Open) && ticket.EmpEmail==this.props.account?.username))
-        }
-        else{
-            filterTickets=tickets.filter((ticket)=>(ticket.Status==this.state.activeTab) && (ticket.EmpEmail==this.props.account?.username))
-        }
+    {
+      var tickets=GetAllTicket()
+      var  filterTickets;
+      var  inProgressCount;
+      var  resolvedCount
+      var  closedCount 
+      console.log(tickets)
+      this.setState({
+          tickets:tickets
+      })
+      if(this.state.activeTab!=TicketStatus.All_Tickets)
+      {   
+          debugger
+          if(this.state.activeTab==TicketStatus.In_Progress)
+          {
+              console.log(tickets[0].Status)
+              filterTickets=tickets.filter((ticket)=>(ticket.Status==this.state.activeTab)|| (ticket.Status==TicketStatus.Open))
+          }
+          else{
+              filterTickets=tickets.filter((ticket)=>ticket.Status==this.state.activeTab)
+          }
+      }
+      inProgressCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.In_Progress || ticket.Status==TicketStatus.Open).length;
+      resolvedCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.Resolved).length;
+      console.log(tickets.filter((ticket)=>ticket.Status==TicketStatus.Resolved))
+      closedCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.Closed).length
+      this.setState({
+          filteredTicket:filterTickets? filterTickets :tickets,
+          inProgressCount,
+          resolvedCount,
+          closedCount
+      })
     }
-    
-    inProgressCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.In_Progress || ticket.Status==TicketStatus.Open).length;
-    resolvedCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.Resolved).length;
-    console.log(tickets.filter((ticket)=>ticket.Status==TicketStatus.Resolved))
-    closedCount=tickets.filter((ticket)=>ticket.Status==TicketStatus.Closed).length
-    this.setState({
-        filteredTicket:filterTickets? filterTickets : tickets.filter((ticket)=>ticket.EmpEmail==this.props.account?.username),
-        inProgressCount,
-        resolvedCount,
-        closedCount
-    })
-  }
 
   handleTabChange=  (tab:string)=>{
     this.setState({
@@ -196,11 +199,12 @@ class Dashboard extends React.Component<IDashboardProps, IUserDashboardState> {
               </div>
               <div className='tickets-card border-0 p-4 d-flex flex-column gap-4'>
                 {filteredTicket.slice().reverse().map((ticket,index)=>(
-                  <TicketCard RequestedFrom='Dashboard' ticketData={ticket} reloadData={this.reloadData}/>
+                  <TicketCard RequestedFrom='Dashboard' ticketData={ticket} reloadData={this.reloadData} account={this.props.account}/>
                 ))}
               </div>
           </div>
         </div>
+        {/* <MyRequests account={this.props.account}/> */}
         {this.state.showModal && this.renderContent()}
       </div>
     );

@@ -6,19 +6,25 @@ import { ITicket } from '../../Interfaces/ITickets';
 import { TicketStatus } from '../../Common/Enum';
 
 interface IApprovalProps{
-
-}
-
-interface IApprovalProps{
+    account:any
     activeTab:string;
     tickets:ITicket[];
     filteredTicket:ITicket[];
     inProgressCount:number;
     resolvedCount:number;
-    closedCount:number
+    closedCount:number;
 }
 
-export default class Approval extends Component<IApprovalProps,IApprovalProps> {
+interface IApprovalState{
+    activeTab:string;
+    tickets:ITicket[];
+    filteredTicket:ITicket[];
+    inProgressCount:number;
+    resolvedCount:number;
+    closedCount:number;
+}
+
+export default class Approval extends Component<IApprovalProps,IApprovalState> {
   constructor(props:IApprovalProps  ) {
     super(props)
   
@@ -136,7 +142,7 @@ export default class Approval extends Component<IApprovalProps,IApprovalProps> {
             </div>
             <div className='tickets-card border-0 p-4 d-flex flex-column gap-4'>
                 {filteredTicket.map((ticket,index)=>(
-                    <TicketCard RequestedFrom='Approvals' ticketData={ticket} reloadData={this.reloadData}/>
+                    <TicketCard RequestedFrom='Approvals' ticketData={ticket} reloadData={this.reloadData} account={this.props.account}/>
                 ))}
             </div>
         </div>

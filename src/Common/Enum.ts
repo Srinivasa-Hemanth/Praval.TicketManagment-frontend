@@ -20,5 +20,12 @@ export enum Mail{
 
 export enum Role{
     Manager='Manager',
-    IT_Admin='IT_Admin'
+    IT_Admin='IT Admin',
+    User="User"
+}
+
+export enum navTabs{
+    Home='Home',
+    Dashboard='Dashboard',
+    Approval='Approvals'
 }

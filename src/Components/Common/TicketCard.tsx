@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import './TicketCard.css';
 import { ITicket } from '../../Interfaces/ITickets';
-import { Priority } from '../../Common/Enum';
+import { Priority, Role } from '../../Common/Enum';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { UpdateTicket } from '../../Services/TicketService';
 import { toast } from 'react-toastify';
+import { GetUserRole } from '../../Services/UserService';
 
 interface ITicketCardProps {
     ticketData?: ITicket;
     RequestedFrom : string;
     reloadData: () => void;
+    account:any;
 }
 
 interface ITicketCardState {
     isModalOpen: boolean;
     comments: string;
+    role:string
 }
 
 export default class TicketCard extends Component<ITicketCardProps, ITicketCardState> {
@@ -24,7 +27,8 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
 
         this.state = {
             isModalOpen: false,
-            comments: this.props.ticketData?.comments || ''
+            comments: this.props.ticketData?.comments || '',
+            role:''
         };
     }
 
@@ -100,6 +104,14 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
         this.props.reloadData();
     };
 
+    componentDidMount(): void {
+        var role=GetUserRole(this.props.account?.username);
+        console.log(role)
+        this.setState({
+          role:role
+        })
+      }
+
     render() {
         const { ticketData } = this.props;
         const { isModalOpen, comments } = this.state;
@@ -114,7 +126,7 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
                         </div>
                     </div>
                     <div className='d-flex justify-content-end'>
-                        Ticket {ticketData?.Status}
+                        {ticketData?.Status}
                     </div>  
                 </div>
                 <div className='align-items-center d-flex gap-3 subject-container d-flex'>
@@ -186,21 +198,21 @@ export default class TicketCard extends Component<ITicketCardProps, ITicketCardS
                         </div>
                     </Modal.Body>
 
-                    {this.props.RequestedFrom.toLocaleLowerCase() === "approvals" &&  (this.props.ticketData?.Status==="Active") && (
-                    <Modal.Footer>
-                        <Button className='btn' variant="danger" onClick={this.handleReject}>
-                        Reject
-                        </Button>
-                        <Button className='btn' variant="success" onClick={this.handleApprove}>
-                        Approve
-                        </Button>
-                    </Modal.Footer>
-                    )}
+                    {(this.state.role=='IT Admin' || this.state.role==Role.Manager) &&              
+                        <Modal.Footer>
+                            <Button className='btn' variant="danger" onClick={this.handleReject}>
+                            Reject
+                            </Button>
+                            <Button className='btn' variant="success" onClick={this.handleApprove}>
+                            {this.state.role==Role.Manager ? 'Approve' : 'Resolve'}
+                            </Button>
+                        </Modal.Footer>
+                    }
 
-                    {(this.props.RequestedFrom.toLocaleLowerCase() === "dashboard" && (this.props.ticketData?.Status!="Closed")) && (
+                    {(this.props.RequestedFrom.toLocaleLowerCase() === "dashboard" && (this.props.ticketData?.Status!="Closed") && (this.state.role!='IT Admin' && this.state.role!=Role.Manager)) && (
                     <Modal.Footer>
                         <Button className='btn' variant="success" onClick={this.handleClose}>
-                            Close Ticket
+                            Close
                         </Button>
                     </Modal.Footer>
                     )}

@@ -6,7 +6,7 @@ import { ITicket } from '../../Interfaces/ITickets';
 import { TicketStatus } from '../../Common/Enum';
 
 interface IMyRequestsProps{
-
+  account:any
 }
 
 interface MyRequestsState{
@@ -105,7 +105,7 @@ export default class MyRequests extends Component<IMyRequestsProps,MyRequestsSta
             </div>
             <div className='tickets-card border-0 p-4 d-flex flex-column gap-4'>
                 {filteredTicket.map((ticket,index)=>(
-                    <TicketCard RequestedFrom='MyRequests' ticketData={ticket} reloadData={this.reloadData}/>
+                    <TicketCard RequestedFrom='MyRequests' ticketData={ticket} reloadData={this.reloadData} account={this.props.account}/>
                 ))}
             </div>
         </div>
